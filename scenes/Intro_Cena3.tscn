@@ -4,6 +4,6 @@
 [ext_resource type="Texture2D" uid="uid://b27qx55tk6ydk" path="res://assets/3.png" id="2_img"]
 
 [node name="Intro_Cena3" instance=ExtResource("1_base")]
-texto = "E aí... BUM! Tela azul mental! João fica completamente travado na cadeira enquanto uma enxurrada de glitches coloridos, códigos estilo Matrix e estática neon explodem do capacete e dos seus olhos. O escritório em volta parece sumir, virando uma balada cyberpunk distorcida e cheia de chiado roxo. Basicamente, a mente do nosso querido dev acabou de sofrer um crash daqueles que nem dando Ctrl+Alt+Del resolve."
+texto = "BUM! Tela azul mental. João trava na cadeira enquanto glitches coloridos, código estilo Matrix e estática neon explodem do capacete. O escritório vira uma balada cyberpunk distorcida. A mente do dev acabou de dar um crash que nem Ctrl+Alt+Del resolve."
 imagem = ExtResource("2_img")
 proxima_cena = "res://scenes/Intro_Cena4.tscn"
