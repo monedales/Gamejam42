@@ -7,6 +7,7 @@
 [ext_resource type="AudioStream" uid="uid://bwswl0pgqsgh4" path="res://assets/music/Zeta - RAM.mp3" id="5_1t77w"]
 [ext_resource type="Texture2D" uid="uid://c4q2iaj4rbw65" path="res://assets/background_2.png" id="6_tm630"]
 [ext_resource type="Script" uid="uid://duy5xnb1kipxt" path="res://scripts/GlitchManager.gd" id="7_glitch"]
+[ext_resource type="Script" path="res://scripts/ChefeMensagem.gd" id="8_chefe"]
 
 [node name="GameWorld" type="Node2D" unique_id=2090614546]
 script = ExtResource("1_hub")
@@ -47,6 +48,9 @@ horizontal_alignment = 1
 
 [node name="GlitchManager" type="Node2D" parent="UI" unique_id=440475815]
 script = ExtResource("7_glitch")
+
+[node name="ChefeMensagem" type="Control" parent="UI"]
+script = ExtResource("8_chefe")
 
 [node name="bg_music" type="AudioStreamPlayer" parent="." unique_id=229848476]
 stream = ExtResource("5_1t77w")
