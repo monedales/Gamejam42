@@ -1,63 +1,46 @@
-# Cyber Psicólogo — protótipo de hackathon (Godot 4)
+# CyberTerapia™ — protótipo de hackathon (Godot 4)
 
-Minigame estilo *Trouble at the National Neopian* com tema **glitch**.
-Você é um cyber psicólogo tratando os glitches do cérebro do paciente.
+Co-op local no mesmo teclado: dois jogadores tratam o burnout do João, um dev júnior que literalmente "caiu em produção" depois de vibe-codar demais numa startup insuportavelmente otimista.
 
-- **Lado ESQUERDO do cérebro** → teclas **S D F**
-- **Lado DIREITO do cérebro** → teclas **J K L**
-- **Co-op local (a inovação):** um jogador cuida do SDF, outro do JKL, no mesmo teclado. Já funciona, sem código extra.
+- **Lado RACIONAL** (esquerda) → minigame de ritmo, teclas **A S D**
+- **Lado EMOCIONAL** (direita) → estabilizar as ondas, teclas **J K L**
+- **Glitch (a mecânica-assinatura):** de vez em quando um lado trava. Só o
+  **outro jogador** conserta — segurando **W** (conserta o lado direito) ou
+  **I** (conserta o lado esquerdo) — enquanto ainda joga o próprio minigame.
+- **Notificações do chefe:** durante a partida, 2-3 "mensagens de Slack" do founder
+  pipocam no canto da tela com falas dele (banco completo em `HISTORIA.md`) — puramente
+  cosméticas, não afetam o gameplay.
 
 ---
 
 ## Como rodar
-1. Instale o **Godot 4.x** (4.3+ recomendado).
-2. Abra o Godot → **Importar** → selecione o arquivo `project.godot` desta pasta.
-3. Aperte **F5** (rodar). Pronto.
+1. Instale o **Godot 4.x** (4.7 recomendado) — `brew install --cask godot` no Mac, ou baixe em godotengine.org.
+2. Abra o Godot → **Importar** → selecione o `project.godot` desta pasta (ou rode `godot project.godot` direto no terminal).
+3. Aperte **F5**. Pronto.
 
-## Loop do jogo (v3)
-1. **Área da mente** (nível): trate a quota de glitches sem deixar o COLAPSO encher.
-2. **Decisão clínica**: aparece uma anotação do caso de João com 2-3 escolhas. Aperte **1 / 2 / 3**.
-3. A escolha **inclina o diagnóstico** (Ansiedade / Trauma / Autoimagem) e dá um **power-up** (modifica o gameplay).
-4. Próxima área, mais difícil. Ao fim das 4 áreas → tela de **diagnóstico provável**.
+## Loop do jogo
+1. **Menu** → sequência de telas de lore (o chefe pressionando o João pro deploy).
+2. **Tutorial 1** — Waves sozinho, aprende **J K L**.
+3. **Tutorial 2** — Dance sozinho, aprende **A S D**.
+4. **Partida (Hub)** — os dois jogam ao mesmo tempo por 60s, um de cada lado, lidando com os
+   glitches que aparecem no lado do colega (e as notificações do chefe pipocando no canto).
+5. **Final** — depende da diferença entre os scores dos dois lados:
+   - Diferença pequena (< 10%) → **Integração** (final bom)
+   - Racional bem maior → **Razão Ganhou**
+   - Emocional bem maior → **Emoção Ganhou**
+   - Um dos dois colapsa (emocional muito baixo) → **Derrota**
 
-## Como jogar
-- Glitches aparecem nas 6 colunas. Cada um tem um **anel de perigo** que vai fechando.
-- Aperte a **tecla da coluna** pra tratar o glitch antes do anel fechar.
-- Glitch perdido → sobe o **RISCO DE COLAPSO**. Encheu = fim de jogo.
-- Tratar em sequência aumenta o **COMBO** (multiplica o score).
-- Cada glitch tem uma **VOZ INTERIOR** (pensamento intrusivo) no painel central. Ao tratar, ele é **ressignificado** numa frase mais gentil — esse é o coração do tema "você não apaga, você integra".
-- **RAIVA** (laranja): NÃO se trata com toque — **SEGURE** a tecla pra "respirar junto" e baixar a escalação (anel azul interno enche). É o gesto de de-escalada.
-- **TRAUMA** (verde) precisa de 2 toques. **VAZIO** (cinza) é lento. **DISTORÇÃO** (amarelo) treme na tela.
+## Onde mexer pra balancear
+- `scripts/Hub.gd` — duração da partida (`DURACAO`), limites dos finais (`COLAPSO_MIN`, `VAR_LIMITE`).
+- `scripts/GlitchManager.gd` — ritmo de spawn dos glitches (`SPAWN_MIN`/`SPAWN_MAX`), tempo de conserto (`HOLD_TIME`).
+- `scripts/MinigameDance.gd` / `scripts/MinigameWaves.gd` — dificuldade de cada minigame (BPM, janelas de acerto, drenagem de foco).
+- `scripts/ChefeMensagem.gd` — quantidade/frequência das notificações do chefe (`qtd_mensagens`, `tempo_visivel`) e o banco de falas (`FALAS`).
 
-> A ideia da v2: o **gesto** combina com a emoção. Próximos passos sugeridos — Medo congela a coluna vizinha; Trauma vira press no tempo certo (timing, não velocidade); Vazio vira vários toques leves; Distorção mostra a tecla errada de propósito.
-
----
-
-## Como dividir entre 5 pessoas (mínimo de conflito no git)
-O projeto foi feito de propósito quase todo em código (poucos arquivos `.tscn`) pra evitar dor de cabeça com merge de cena no git.
-
-| Pessoa | Arquivo / área | Tarefa |
-|---|---|---|
-| 1 (líder) | `scripts/Main.gd` | game loop, dificuldade, score, colapso |
-| 2 | `scripts/Glitch.gd` | comportamento dos tipos de glitch (novas mecânicas) |
-| 3 | arte (pasta `art/`) | trocar os círculos desenhados por sprites/pixel art |
-| 4 | áudio | adicionar `AudioStreamPlayer` para acerto/erro/música |
-| 5 | UI/UX + telas | tela inicial, tela de game over bonita, tutorial |
-
-Dica: combinem que **só a pessoa 1 mexe no `Main.gd`**. As outras criam arquivos novos e o líder integra. Isso evita 90% dos conflitos.
+## Ideias de extensão
+1. Ligar a tela **PlotTwist** ("chama o colega") no fluxo — hoje existe mas não tá encadeada nos tutoriais.
+2. Avatar do chefe nas notificações (hoje é só texto).
+3. Export pra Web (HTML5) pra rodar direto no navegador — o renderer já tá em GL Compatibility pra isso.
 
 ---
 
-## Ideias de extensão (ordem de "ganho rápido")
-1. **Som** — o que mais aumenta a sensação de "jogo pronto". 3 sons: tratar, errar, colapso.
-2. **Glitch que se espalha** — CULPA: se não tratar, contamina a lane vizinha. (mexe em `Glitch.gd` + `Main.gd`)
-3. **Modo "chama o colega"** — quando os 6 slots enchem, pisca "SOCORRO LADO DIREITO!" pra puxar a outra pessoa. Já dá pra fazer só com texto.
-4. **Sequência de teclas** — DISTORÇÃO mostra a tecla errada de propósito; o jogador tem que ignorar e apertar a da coluna.
-5. **Export pra Web (HTML5)** — pra demo do hackathon rodar no navegador: Projeto → Exportar → Web. (o renderer já está em GL Compatibility justamente pra isso)
-
-## Onde mexer pra balancear (no topo do `Main.gd`)
-- `spawn_inicial` — mais alto = mais fácil no começo
-- `spawn_minimo` — limite de quão frenético fica
-- `escalacao_base` — velocidade que os glitches pioram
-- `dano_colapso` — punição por glitch perdido
-# Gamejam42
+Documento de narrativa completo (personagens, falas do chefe, os 4 finais) em [`HISTORIA.md`](./HISTORIA.md).
