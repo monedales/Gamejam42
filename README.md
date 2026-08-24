@@ -1,4 +1,4 @@
-# CyberTerapia™ — protótipo de hackathon (Godot 4)
+# CyberTerapia™ — protótipo de GameJam (Godot 4)
 
 Co-op local no mesmo teclado: dois jogadores tratam o burnout do João, um dev júnior que literalmente "caiu em produção" depois de vibe-codar demais numa startup insuportavelmente otimista.
 
